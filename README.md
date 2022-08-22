@@ -2,6 +2,8 @@
 
 This project was bootstrapped with Fastify-CLI.
 
+![截图](https://github.com/xiaopc/a-udf/blob/main/docs/readme-screenshot.png)
+
 ## 简介
 
 适用于 Tradingview `charting_library` 的国内数据源 UDF 接口
@@ -33,9 +35,9 @@ This project was bootstrapped with Fastify-CLI.
 
 以下为绘图存储接口（[官方实现 demo](https://github.com/tradingview/saveload_backend)）：
 
-- [ ] `charts`
-- [ ] `study_templates` 
-- [ ] `drawing_templates`
+- [ ] `/charts`
+- [ ] `/study_templates` 
+- [ ] `/drawing_templates`
 
 ## Available Scripts
 
