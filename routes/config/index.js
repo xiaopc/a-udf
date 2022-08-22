@@ -10,8 +10,8 @@ module.exports = async function (fastify, opts) {
       "supports_time": true, 
       "exchanges": [
         { "value": "", "name": "所有市场", "desc": "" }, 
-        { "value": "stock_a", "name": "沪深", "desc": "沪深" }, 
-        { "value": "csindex", "name": "中证指数", "desc": "中证指数" }
+        // { "value": "stock_a", "name": "沪深", "desc": "沪深" }, 
+        // { "value": "csindex", "name": "中证指数", "desc": "中证指数" }
       ], 
       "symbols_types": [
         { "name": "所有类别", "value": "" }, 
