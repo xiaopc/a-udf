@@ -29,7 +29,7 @@ This project was bootstrapped with Fastify-CLI.
 - [x] `/symbols` 「商品代码」之配置
 - [ ] `/symbol_info` 「商品代码」集合
 - [x] `/search` 搜索建议
-- [x] `/history` K 线数据（`nextTime` 等未实现）
+- [x] `/history` K 线数据
 - [x] `/marks` K 线上方标记（目前有：龙虎榜，建议前端配合 `onMarkClick`）
 - [ ] `/timescale_marks` 时间轴上标记
 
