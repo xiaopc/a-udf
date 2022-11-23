@@ -1,6 +1,7 @@
 'use strict'
 
 const eastmoney = require('../../providers/eastmoney')
+const csindex = require('../../providers/csindex')
 
 const curOpts = {
   schema: {
@@ -27,7 +28,13 @@ const curOpts = {
 
 module.exports = async function (fastify, opts) {
   fastify.get('/', curOpts, async function (request, reply) {
-    if (request.query.query == '') return []
-    return eastmoney.doSearch(request.query.query)
+    const sources = [eastmoney, csindex]
+    let res = []
+    if (request.query.query == '') return res
+    for (let s of sources) {
+      const data = await s.doSearch(request.query.query)
+      res.push(...data)
+    }
+    return res
   })
 }

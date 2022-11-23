@@ -18,7 +18,8 @@ This project was bootstrapped with Fastify-CLI.
 
 - [x] 搜索建议：东方财富
 - [x] A 股、主要指数：东方财富（日 K、近期分时 K）
-- [ ] 中证指数、国证指数等
+- [x] 中证指数（15 秒线需开启 `seconds_resolution`）
+- [ ] 国证指数等
 - [ ] 港股
 - [ ] 其他
 
@@ -38,6 +39,10 @@ This project was bootstrapped with Fastify-CLI.
 - [ ] `/charts`
 - [ ] `/study_templates` 
 - [ ] `/drawing_templates`
+
+## 相关
+
+[tradingview-ashare](https://github.com/xiaopc/tradingview-ashare)：Tradingview A 股助手，含同花顺自选股同步等功能
 
 ## Available Scripts
 

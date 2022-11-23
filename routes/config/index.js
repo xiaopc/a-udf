@@ -18,7 +18,7 @@ module.exports = async function (fastify, opts) {
         { "name": "股票", "value": "stock" }, 
         { "name": "指数", "value": "index" }
       ], 
-      "supported_resolutions": ['5', '15', '30', '60', '1D' ,'1W', '1M']
+      "supported_resolutions": ['15S', '5', '15', '30', '60', '1D' ,'1W', '1M'],
     }
   })
 }

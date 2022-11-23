@@ -19,8 +19,7 @@ const curOpts = {
           type: 'number'
         },
         resolution: {
-          type: 'string',
-          enum: ['1D']
+          type: 'string'
         }
       },
       required: ['symbol', 'resolution', 'to']
@@ -31,7 +30,7 @@ const curOpts = {
 module.exports = async function (fastify, opts) {
   fastify.get('/', curOpts, async function (request, reply) {
     const symbolParts = request.query.symbol.split('.')
-    if (request.query.resolution != '1D' || symbolParts.length > 2) return []
+    if (request.query.resolution != '1D' || !['XSHE', 'XSHG'].includes(symbolParts[1])) return []
 
     const lhbData = await eastmoney.getLHBDate(symbolParts[0])
     return lhbData?.filter(t => t >= request.query.from && t <= request.query.to)?.map(t => {

@@ -1,17 +1,11 @@
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args))
 const fns = require('date-fns')
 const fnstz = require('date-fns-tz')
-const NodeCache = require("node-cache");
+const NodeCache = require("node-cache")
+const { getJsonByUrlParams, transpose } = require("../utils")
+const marketBasic = require("./marketBasic.json")
 
 const memCache = new NodeCache({stdTTL: 60, checkperiod: 120});
-
-const transpose = (arr) => arr[0]?.map((col, i) => arr.map(row => row[i]))
-
-const getJsonByUrlParams = async (baseUrl, params) => {
-  const urlParams = new URLSearchParams()
-  Object.entries(params).forEach(i => urlParams.append(...i))
-  return await (await fetch(`${baseUrl}?${urlParams.toString()}`)).json()
-}
 
 const convertAshareTicket = (ticker) => {
   if (ticker.startsWith('sh')) return ticker.slice(2) + '.XSHG'
@@ -19,7 +13,7 @@ const convertAshareTicket = (ticker) => {
 }
 
 const doSearch = async (kw) => {
-  const exchangeCode = {"0": "XSHE", "1": "XSHG", "106": "NYSE", "116": "XHKG"}
+  const exchangeCode = {"0": "XSHE", "1": "XSHG", "106": "NYSE", "116": "XHKG", "150": "OTCFUND"}
   const url = "http://searchadapter.eastmoney.com/api/suggest/get"
   const params = {
     "input": kw.split('.')[0],
@@ -35,7 +29,7 @@ const doSearch = async (kw) => {
   }
   const data = await getJsonByUrlParams(url, params)
 
-  const typeCode = {"AStock": "stock", "UsStock": "stock", "Index": "index", "OTCFUND": ""}
+  const typeCode = {"AStock": "stock", "UsStock": "stock", "Index": "index", "OTCFUND": "fund"}
   return data.QuotationCodeTable.Data?.filter(i => Object.keys(typeCode).includes(i.Classify)).map(i => {
     let symbol = `${i.Code}.${exchangeCode[i.MktNum]}`
     if (typeCode[i.Classify] == "index") {
@@ -63,12 +57,13 @@ const getBasicA = async (ticker, exchange) => {
     "minmov2": 0, 
     "pointvalue": 1, 
     "session": "0930-1130,1300-1500", 
-    "session_holidays": "20150101,20150102,20150218,20150219,20150220,20150223,20150406,20150622,20150903,20150904,20150927,20151001,20151002,20151005,20160101,20160208,20160209,20160210,20160211,20160212,20160404,20160609,20160610,20160915,20160916,20160927,20161003,20161004,20161005,20161006,20161007,20170127,20170130,20170131,20170201,20170201,20170403,20170501,20170529,20170530,20171002,20171003,20171004,20171005,20171006,20180101,20180215,20180216,20180219,20180220,20180221,20180405,20180406,20180430,20180501,20180618,20180924,20181001,20181002,20181003,20181004,20181005,20190101,20190204,20190205,20190206,20190207,20190208,20190405,20190501,20190607,20190913,20191001,20191002,20191003,20191004,20191007,20200101,20200124,20200125,20200126,20200127,20200128,20200129,20200130,20200406,20200501,20200502,20200503,20200504,20200505,20200625,20200626,20201001,20201002,20201005,20201006,20201007,20201008,20210101,20210211,20210212,20210215,20210216,20210217,20210405,20210503,20210504,20210505,20210614,20210920,20210921,20211001,20211004,20211005,20211006,20211007,20220103,20220131,20220201,20220202,20220203,20220204,20220404,20220405,20220502,20220503,20220504,20220603,20220912,20221003,20221004,20221005,20221006,20221007",
+    "session_holidays": marketBasic.ashare.session_holidays,
     "has_intraday": true, 
     "has_no_volume": false, 
     "description": data.jbzl[0].SECURITY_NAME_ABBR, 
     "type": "stock", 
     "supported_resolutions": ['5', '15', '30', '60', '1D' ,'1W', '1M'], 
+    "intraday_multipliers": ['5', '15', '30', '60'],
     "pricescale": 100, 
     "ticker": `${ticker}.${exchange}`
   }

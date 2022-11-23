@@ -1,6 +1,7 @@
 'use strict'
 
 const eastmoney = require('../../providers/eastmoney')
+const csindex = require('../../providers/csindex')
 
 const curOpts = {
   schema: {
@@ -24,6 +25,8 @@ const getBasic = async (symbol) => {
         return eastmoney.getBasicIndex(symbolParts[0])
       }
       return eastmoney.getBasicA(symbolParts[0], symbolParts[1])
+    case 'CSI':
+      return csindex.getBasic(symbol)
     default:
       const searchList = await eastmoney.doSearch(symbol)
       if (searchList.length == 0) return {}
